@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" th:class="${theme}" xmlns:th="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>5 Minutes of Hate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT&display=swap" rel="stylesheet">
+    <link rel="icon" href="/icon.png">
+    <link rel="stylesheet" href="/base.css">
+    <link rel="stylesheet" href="/dark_theme.css">
+    <link rel="stylesheet" href="/light_theme.css">
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <div class="header-left">
+          <img class="logo-img" src="https://img.icons8.com/?size=100&id=Oe4ZIsh7LRBH&format=png&color=000000"
+               alt="Angry Icon" title="Evil icon by Icons8: https://icons8.com/icon/Oe4ZIsh7LRBH/evil">
+          <span class="logo-text" th:text="#{page.main.title}"></span>
+        </div>
+
+        <div class="header-center">
+        </div>
+
+        <div class="header-right">
+          <p class="description" th:utext="#{page.main.description}"></p>
+
+          <div class="header-cookies">
+            <form method="get" action="" class="lang-switcher">
+              <select name="lang" onchange="this.form.submit()">
+                <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+                <option value="ru" th:selected="${#locale.language == 'ru'}">RU</option>
+              </select>
+            </form>
+
+            <form action="/theme" method="post" style="display:inline;">
+              <input type="hidden" name="theme" th:value="${theme == 'dark' ? 'light' : 'dark'}"/>
+              <button type="submit" title="Switch Theme" class="theme-toggle-button"
+                      th:text="${theme == null || theme == 'dark'} ? '✴' : '☾'"></button>
+            </form>
+          </div>
+        </div>
+      </header>
+
+      <input type="checkbox" id="modal-toggle" hidden>
+      <label for="modal-toggle" class="create-button" th:text="#{page.main.btn.create}"
+             th:title="#{page.main.create.tooltip}"></label>
+      <div class="modal">
+        <form action="/api/posts/create" method="post" class="modal-content">
+          <div class="row">
+            <h2 class="modal-content-label" th:text="#{page.main.modal.create.header}"></h2>
+            <div class="toggle-container">
+              <label class="switch">
+                <input type="checkbox" name="anonymous"></button>
+                <span class="slider round"></span>
+              </label>
+              <label class="modal-content-label" th:text="#{page.main.modal.create.switch.anonymous}"
+                     th:title="#{page.main.modal.create.switch.anonymous.tooltip}"></label>
+            </div>
+          </div>
+          <textarea name="text" minlength="20" th:placeholder="#{page.main.modal.create.placeholder}"
+                    required></textarea>
+          <div class="modal-actions">
+            <label for="modal-toggle" class="close-button" th:text="#{page.main.modal.create.btn.cancel}"></label>
+            <button class="submit-button" type="submit" th:title="#{page.main.create.tooltip}"
+                    th:text="#{page.main.modal.create.btn.ok}"></button>
+          </div>
+        </form>
+      </div>
+
+      <div id="toast-toggle-button" onclick="toggleToasts()">
+        🗨️ <span id="toast-count">0</span>
+      </div>
+
+      <div id="toast-container" class="toast-container hidden"></div>
+
+
+      <ul class="posts" th:if="${posts != null and !posts.isEmpty()}" id="posts-list">
+        <th:block th:each="post : ${posts}">
+          <li class="post" th:id="'post-' + ${post.id}">
+            <div class="posts-user" th:text="${post.author}"></div>
+            <div class="posts-content" th:text="${post.text}"></div>
+            <div class="posts-actions">
+              <button class="posts-button" th:id="'like-post-' + ${post.id}"
+                      th:onclick="'likePost(' + ${post.id} + ')'">
+                ☠️ <span class="posts-button-text" th:id="'like-post-count-' + ${post.id}"
+                         th:text="${post.likes}"></span>
+              </button>
+              <form class="row" th:onsubmit="'commentPost(' + ${post.id} + ',this,event)'">
+                <input type="text" name="post-comment-input" th:placeholder="#{page.main.post.comment}"
+                       class="comment-input" maxlength="256" required>
+                <button class="posts-button" type="submit" th:id="'comment-post-' + ${post.id}"> 🤬</button>
+              </form>
+            </div>
+            <ul class="posts-comments" th:id="'comments-list-' + ${post.id}">
+              <th:block th:each="comment : ${post.comments}">
+                <li class="posts-comment" th:id="'comment-' + ${post.id} + '-' + ${comment.id}">
+                  <div class="posts-user" th:text="${comment.comment.author}"></div>
+                  <div class="posts-content" th:text="${comment.comment.text}"></div>
+                  <div class="comment-actions">
+                    <button class="posts-button" th:id="'like-comment-' + ${post.id} + '-' + ${comment.id}"
+                            th:onclick="'likeComment(' + ${post.id} + ',' + ${comment.id} + ')'">
+                      ☠️ <span class="posts-button-text"
+                               th:id="'like-comment-count-' + ${post.id} + '-' + ${comment.id}"
+                               th:text="${comment.comment.likes}"></span>
+                    </button>
+                  </div>
+                </li>
+              </th:block>
+            </ul>
+          </li>
+        </th:block>
+      </ul>
+
+      <footer>
+        <p th:text="#{page.main.active.sessions} + ': ' + ${activeSessions}"></p>
+        <p th:text="#{page.main.create.tooltip}"></p>
+        <p>&copy; 2025 5 Minutes of Hate — The place of relief 😈</p>
+      </footer>
+    </div>
+
+    <script src="/js/post-action-buttons.js"></script>
+
+    <script th:inline="javascript">
+      const consts = {
+        notificationTitlePost: [[#{page.main.notification.title.post}]],
+        notificationTextPost: [[#{page.main.notification.text.post}]],
+        notificationTitleComment: [[#{page.main.notification.title.comment}]],
+        notificationTextComment: [[#{page.main.notification.text.comment}]],
+        notificationButton: [[#{page.main.notification.button}]],
+        notificationAppServerKey: [[${appServKey}]]
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <script src="/js/notifications.js"></script>
+
+    <script>
+        window.addEventListener('load', () => {
+          if (window.location.hash) {
+            // Wait a bit for dynamic content to be added
+            setTimeout(() => {
+              const el = document.querySelector(window.location.hash);
+              if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+              }
+            }, 100);
+          }
+        });
+    </script>
+  </body>
+</html>

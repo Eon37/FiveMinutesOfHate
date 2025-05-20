@@ -1,0 +1,32 @@
+.dark {
+  --background-color: #161616;
+  --text-color: #eee;
+  --header-color: #202020;
+  --lang-btn-bg-color: #111;
+  --lang-btn-text-color: #fff;
+  --header-border-bottom: 1px solid #2c2c2c;
+  --logo-text-color: #ff3b3b;
+  --logo-text-shadow:
+    0 0 5px rgba(255, 0, 0, 0.4),
+    0 0 10px rgba(255, 0, 0, 0.5),
+    0 0 15px rgba(255, 0, 0, 0.6);
+  --description-color: #aaa;
+  --posts-background: rgba(100, 20, 20, 0.4);
+  --posts-border: 1.5px solid rgba(255, 80, 80, 0.45);
+  --posts-color: #f0c0c0;
+  --posts-box-shadow:
+    0 4px 15px rgba(255, 50, 50, 0.7),
+    0 0 20px rgba(255, 0, 0, 0.4);
+  --posts-usr-color: #ff6b6b
+  --posts-btn-text: #fff;
+  --posts-btn-shadow: 0 0 10px rgba(255,50,50,0.3);
+  --comment-border-bottom: 1px solid #b31217;
+  --comment-input-box-shadow: inset 0 0 5px rgba(255, 0, 0, 0.3);
+  --modal-border: 1px solid #555;
+  --modal-close-btn-bg: transparent;
+  --modal-close-btn-clr: #ccc;
+  --modal-close-btn-border: 1px solid darkred;
+  --modal-input-focus-border-box-shadow: 0 0 1px #2196F3;
+  --modal-input-clr: white;
+  --modal-input-focus-border: darkred;
+}
