@@ -1,0 +1,30 @@
+.light {
+  --background-color: #f1f1f1;
+  --text-color: #111;
+  --header-color: #ffffff;
+  --header-border-bottom: 1px solid #cccccc;
+  --lang-btn-bg-color: #fff;
+  --lang-btn-text-color: #111;
+  --logo-text-color: #cc3333;
+  --logo-text-shadow: none;
+  --description-color: #555;
+  --posts-background: rgba(255, 255, 255, 0.4)
+  --posts-border: 1px solid #ddd;
+  --posts-color: #111;
+  --posts-box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  --posts-cmnts-color: #555;
+  --posts-cmnts-border-top: 1px solid #ccc;
+  --posts-usr-color: #c0392b;
+  --posts-btn-text: #111;
+  --posts-btn-shadow: 0 0 10px rgba(0,0,0,0.3);
+  --comment-border-bottom: 1px solid #ccc;
+  --comment-input-box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  --modal-textarea-border: 1px solid lightgray;
+  --modal-content-label: gray;
+  --modal-close-btn-bg: transparent;
+  --modal-close-btn-clr: gray;
+  --modal-close-btn-border: 1px solid gray;
+  --modal-input-focus-box-shadow: 0 0 1px gray;
+  --modal-input-clr: gray;
+  --modal-input-focus-border: gray;
+}
