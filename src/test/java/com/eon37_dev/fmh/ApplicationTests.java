@@ -1,6 +1,5 @@
-package com.eon37_dev.tmh;
+package com.eon37_dev.fmh;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest

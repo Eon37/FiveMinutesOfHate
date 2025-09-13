@@ -1,4 +1,4 @@
-package com.eon37_dev.tmh.config;
+package com.eon37_dev.fmh.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

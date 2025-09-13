@@ -1,4 +1,4 @@
-package com.eon37_dev.tmh.dto;
+package com.eon37_dev.fmh.dto;
 
 public class PostMSG {
   private String clientId;

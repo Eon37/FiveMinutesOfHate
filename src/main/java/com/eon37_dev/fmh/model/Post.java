@@ -1,4 +1,4 @@
-package com.eon37_dev.tmh.model;
+package com.eon37_dev.fmh.model;
 
 import org.springframework.util.Assert;
 

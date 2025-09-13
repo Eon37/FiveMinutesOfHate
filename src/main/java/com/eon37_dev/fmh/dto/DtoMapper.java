@@ -1,7 +1,7 @@
-package com.eon37_dev.tmh.dto;
+package com.eon37_dev.fmh.dto;
 
-import com.eon37_dev.tmh.model.Post;
-import com.eon37_dev.tmh.model.PushSubscription;
+import com.eon37_dev.fmh.model.Post;
+import com.eon37_dev.fmh.model.PushSubscription;
 
 import java.util.Collections;
 import java.util.Comparator;

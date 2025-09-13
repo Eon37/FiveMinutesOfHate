@@ -1,9 +1,8 @@
-package com.eon37_dev.tmh.model;
+package com.eon37_dev.fmh.model;
 
-import com.eon37_dev.tmh.config.IpSessionControlFilter;
+import com.eon37_dev.fmh.config.IpSessionControlFilter;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 

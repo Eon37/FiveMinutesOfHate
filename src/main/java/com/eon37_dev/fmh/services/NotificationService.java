@@ -1,8 +1,8 @@
-package com.eon37_dev.tmh.services;
+package com.eon37_dev.fmh.services;
 
-import com.eon37_dev.tmh.dto.CommentMSG;
-import com.eon37_dev.tmh.dto.PostMSG;
-import com.eon37_dev.tmh.model.Post;
+import com.eon37_dev.fmh.dto.CommentMSG;
+import com.eon37_dev.fmh.dto.PostMSG;
+import com.eon37_dev.fmh.model.Post;
 import org.springframework.context.MessageSource;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
