@@ -1,6 +1,6 @@
-package com.eon37_dev.tmh.services;
+package com.eon37_dev.fmh.services;
 
-import com.eon37_dev.tmh.model.PushSubscription;
+import com.eon37_dev.fmh.model.PushSubscription;
 import nl.martijndwars.webpush.Notification;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,6 @@ import java.security.NoSuchProviderException;
 import java.security.Security;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service

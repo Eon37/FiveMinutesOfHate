@@ -1,9 +1,9 @@
-package com.eon37_dev.tmh.controllers;
+package com.eon37_dev.fmh.controllers;
 
-import com.eon37_dev.tmh.dto.DtoMapper;
-import com.eon37_dev.tmh.model.ModelAndViewUtils;
-import com.eon37_dev.tmh.dto.PostDto;
-import com.eon37_dev.tmh.services.PostService;
+import com.eon37_dev.fmh.dto.DtoMapper;
+import com.eon37_dev.fmh.model.ModelAndViewUtils;
+import com.eon37_dev.fmh.dto.PostDto;
+import com.eon37_dev.fmh.services.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;

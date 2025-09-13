@@ -1,6 +1,4 @@
-package com.eon37_dev.tmh.dto;
-
-import com.eon37_dev.tmh.model.Post;
+package com.eon37_dev.fmh.dto;
 
 import java.util.*;
 

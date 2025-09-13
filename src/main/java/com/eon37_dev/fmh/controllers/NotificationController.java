@@ -1,9 +1,9 @@
-package com.eon37_dev.tmh.controllers;
+package com.eon37_dev.fmh.controllers;
 
-import com.eon37_dev.tmh.config.ClientIdFilter;
-import com.eon37_dev.tmh.dto.DtoMapper;
-import com.eon37_dev.tmh.dto.PushSubscriptionDto;
-import com.eon37_dev.tmh.services.PushService;
+import com.eon37_dev.fmh.config.ClientIdFilter;
+import com.eon37_dev.fmh.dto.DtoMapper;
+import com.eon37_dev.fmh.dto.PushSubscriptionDto;
+import com.eon37_dev.fmh.services.PushService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

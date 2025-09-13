@@ -1,11 +1,11 @@
-package com.eon37_dev.tmh.controllers;
+package com.eon37_dev.fmh.controllers;
 
-import com.eon37_dev.tmh.config.ClientIdFilter;
-import com.eon37_dev.tmh.dto.*;
-import com.eon37_dev.tmh.model.ModelAndViewUtils;
-import com.eon37_dev.tmh.model.Post;
-import com.eon37_dev.tmh.services.NotificationService;
-import com.eon37_dev.tmh.services.PostService;
+import com.eon37_dev.fmh.config.ClientIdFilter;
+import com.eon37_dev.fmh.dto.*;
+import com.eon37_dev.fmh.model.ModelAndViewUtils;
+import com.eon37_dev.fmh.model.Post;
+import com.eon37_dev.fmh.services.NotificationService;
+import com.eon37_dev.fmh.services.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

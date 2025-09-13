@@ -1,6 +1,6 @@
-package com.eon37_dev.tmh.services;
+package com.eon37_dev.fmh.services;
 
-import com.eon37_dev.tmh.model.Post;
+import com.eon37_dev.fmh.model.Post;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
