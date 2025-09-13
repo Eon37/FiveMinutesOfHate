@@ -9,17 +9,15 @@ import java.util.concurrent.TimeUnit;
 public class Post {
   private final long id;
   private final String clientId;
-  private final boolean anonymous;
   private final String author;
   private final String text;
   private Set<String> likes;
   private final Map<Long, Post> comments;
   private long expire;
 
-  private Post(long id, String clientId, boolean anonymous, String author, String text, Set<String> likes, Map<Long, Post> comments, long expire) {
+  private Post(long id, String clientId, String author, String text, Set<String> likes, Map<Long, Post> comments, long expire) {
     this.id = id;
     this.clientId = clientId;
-    this.anonymous = anonymous;
     this.author = author;
     this.text = text;
     this.likes = likes;
@@ -33,10 +31,6 @@ public class Post {
 
   public String getClientId() {
     return clientId;
-  }
-
-  public boolean isAnonymous() {
-    return anonymous;
   }
 
   public String getAuthor() {
@@ -80,7 +74,6 @@ public class Post {
   public static class Builder {
     private long id;
     private String clientId;
-    private boolean anonymous;
     private String author;
     private String text = "";
 
@@ -91,11 +84,6 @@ public class Post {
 
     public Builder clientId(String clientId) {
       this.clientId = clientId;
-      return this;
-    }
-
-    public Builder anonymous(boolean anonymous) {
-      this.anonymous = anonymous;
       return this;
     }
 
@@ -118,7 +106,6 @@ public class Post {
       return new Post(
               this.id,
               this.clientId,
-              this.anonymous,
               this.author,
               this.text,
               new HashSet<>(),
@@ -135,7 +122,6 @@ public class Post {
     Post post = (Post) o;
 
     if (id != post.id) return false;
-    if (anonymous != post.anonymous) return false;
     if (expire != post.expire) return false;
     if (!clientId.equals(post.clientId)) return false;
     if (!author.equals(post.author)) return false;
@@ -148,7 +134,6 @@ public class Post {
   public int hashCode() {
     int result = (int) (id ^ (id >>> 32));
     result = 31 * result + clientId.hashCode();
-    result = 31 * result + (anonymous ? 1 : 0);
     result = 31 * result + author.hashCode();
     result = 31 * result + text.hashCode();
     result = 31 * result + likes.hashCode();

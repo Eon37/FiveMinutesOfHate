@@ -74,7 +74,7 @@ public class PostService {
     return POSTS;
   }
 
-  public Post newPost(String clientId, String text, boolean anonymous) {
+  public Post newPost(String clientId, String text) {
     String author = ClientAuthors.assignAuthor(clientId);
     long createTime = System.nanoTime() * 10 + ThreadLocalRandom.current().nextInt(10);
 
@@ -82,7 +82,6 @@ public class PostService {
             .id(createTime)
             .clientId(clientId)
             .author(author)
-            .anonymous(anonymous)
             .text(text)
             .build(true);
 

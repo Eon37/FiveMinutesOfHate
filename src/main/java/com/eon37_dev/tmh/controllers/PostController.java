@@ -33,17 +33,16 @@ public class PostController {
 
   @GetMapping({"", "/"})
   public ModelAndView getAll(HttpServletRequest request) {
-    List<PostDto> postDtos = DtoMapper.mapPostListFilterBySession(request.getSession().getId(), postService.getPosts());
+    List<PostDto> postDtos = DtoMapper.mapPostList(postService.getPosts());
 
     return ModelAndViewUtils.buildView("index", Map.of("posts", postDtos), request, appServKey);
   }
 
   @PostMapping(path = {"", "/"})
   public ModelAndView newPost(RedirectAttributes redirectAttributes, HttpServletRequest request,
-                              @RequestParam(name = "text") String text,
-                              @RequestParam(name = "anonymous", defaultValue = "false") boolean anonymous) {
-    Post newPost = postService.newPost(ClientIdFilter.getClientIdFromCookie(request), HtmlUtils.htmlEscape(text), anonymous);
-    List<PostDto> postDtos = DtoMapper.mapPostListFilterBySession(request.getSession().getId(), postService.getPosts());
+                              @RequestParam(name = "text") String text) {
+    Post newPost = postService.newPost(ClientIdFilter.getClientIdFromCookie(request), HtmlUtils.htmlEscape(text));
+    List<PostDto> postDtos = DtoMapper.mapPostList(postService.getPosts());
 
     notificationService.send(true, newPost, newPost.getId());
     return ModelAndViewUtils.buildRedirect("/", Map.of("posts", postDtos), redirectAttributes, request, appServKey);

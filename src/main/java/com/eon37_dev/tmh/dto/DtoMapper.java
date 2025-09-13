@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class DtoMapper {
   public static PostDto mapPost(Post post) {
-    return new PostDto(post.getId(), post.isAnonymous(), post.getAuthor(), post.getText(), post.getLikes().size(), mapComments(post.getComments()));
+    return new PostDto(post.getId(), post.getAuthor(), post.getText(), post.getLikes().size(), mapComments(post.getComments()));
   }
 
   public static List<CommentDto> mapComments(Map<Long, Post> comments) {
@@ -20,7 +20,6 @@ public class DtoMapper {
                     postEntry.getKey(),
                     new PostDto(
                             postEntry.getValue().getId(),
-                            postEntry.getValue().isAnonymous(),
                             postEntry.getValue().getAuthor(),
                             postEntry.getValue().getText(),
                             postEntry.getValue().getLikes().size(),
@@ -28,10 +27,9 @@ public class DtoMapper {
             .toList();
   }
 
-  public static List<PostDto> mapPostListFilterBySession(String sessionId, Map<Long, Post> posts) {
+  public static List<PostDto> mapPostList(Map<Long, Post> posts) {
     return posts.entrySet().stream()
             .sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
-            .filter(post -> !post.getValue().isAnonymous() || post.getValue().getClientId().equals(sessionId))
             .map(Map.Entry::getValue)
             .map(DtoMapper::mapPost)
             .toList();

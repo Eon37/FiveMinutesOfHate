@@ -34,15 +34,15 @@ public class MainController {
 
   @GetMapping("/")
   public ModelAndView getAll(HttpServletRequest request) {
-    List<PostDto> postDtos = DtoMapper.mapPostListFilterBySession(request.getSession().getId(), postService.getPosts());
+    List<PostDto> postDtos = DtoMapper.mapPostList(postService.getPosts());
 
     return ModelAndViewUtils.buildView("index", Map.of("posts", postDtos), request, appServKey);
   }
 
   @PostMapping("/theme")
-  public ModelAndView theme(RedirectAttributes redirectAttributes, HttpServletRequest request, HttpServletResponse response,
+  public ModelAndView theme(RedirectAttributes redirectAttributes, HttpServletResponse response,
                             @RequestParam("theme") String theme) {
-    List<PostDto> postDtos = DtoMapper.mapPostListFilterBySession(request.getSession().getId(), postService.getPosts());
+    List<PostDto> postDtos = DtoMapper.mapPostList(postService.getPosts());
 
     ResponseCookie cookie = ResponseCookie.from("theme", theme)
             .path("/")
