@@ -1,5 +1,4 @@
 package com.eon37_dev.tmh.config;
-import com.eon37_dev.tmh.services.PostService;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +21,7 @@ public class SessionCounterListener implements HttpSessionListener {
 
   @Override
   public void sessionDestroyed(HttpSessionEvent se) {
-    IpSessionControlFilter.decrementSessionCount(se.getSession().getId()); //TODO return author somewhere
+    IpSessionControlFilter.decrementSessionCount(se.getSession().getId());
   }
 
   private String getClientIP(HttpServletRequest request) {

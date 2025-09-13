@@ -7,7 +7,6 @@ import com.eon37_dev.tmh.model.Post;
 import com.eon37_dev.tmh.services.NotificationService;
 import com.eon37_dev.tmh.services.PostService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,14 +31,14 @@ public class PostController {
     this.notificationService = notificationService;
   }
 
-  @GetMapping("/")
+  @GetMapping({"", "/"})
   public ModelAndView getAll(HttpServletRequest request) {
     List<PostDto> postDtos = DtoMapper.mapPostListFilterBySession(request.getSession().getId(), postService.getPosts());
 
     return ModelAndViewUtils.buildView("index", Map.of("posts", postDtos), request, appServKey);
   }
 
-  @PostMapping(path = "/create")
+  @PostMapping(path = {"", "/"})
   public ModelAndView newPost(RedirectAttributes redirectAttributes, HttpServletRequest request,
                               @RequestParam(name = "text") String text,
                               @RequestParam(name = "anonymous", defaultValue = "false") boolean anonymous) {
