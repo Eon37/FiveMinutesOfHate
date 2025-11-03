@@ -1,10 +1,22 @@
+self.addEventListener('install', (event) => {
+  console.log('[Service Worker] Installed');
+  // Activate new service worker immediately
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  console.log('[Service Worker] Activated');
+  // Take control of open clients
+  event.waitUntil(self.clients.claim());
+});
+
 self.addEventListener('push', function (event) {
   const data = event.data.json();
   console.log('[Service Worker] Push data received:', data);
   event.waitUntil(
       self.registration.showNotification(data.title, {
         body: data.body,
-        icon: '/icon.png',
+        icon: 'icons/icon.png',
         requireInteraction: false
       })
   );
