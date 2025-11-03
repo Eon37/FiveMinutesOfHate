@@ -51,16 +51,15 @@ public class PostService {
 
 
       private static void returnAuthor(String author) {
-        String toReturn = ASS_USER_NAMES.remove(author);
         synchronized (USER_LIST_LOCK) {
-          if (toReturn.contains("#")) {
+          if (author.contains("#")) {
             if (++RET_SEQ == SEQ) {
               SEQ = 0;
               RET_SEQ = 0;
             }
           } else {
-            ALL_AUTHORS.remove(toReturn);
-            ALL_AUTHORS.addFirst(toReturn);
+            ALL_AUTHORS.remove(author);
+            ALL_AUTHORS.addFirst(author);
             AVAILABLE++;
           }
         }
