@@ -39,15 +39,26 @@ function commentPost(postId, form, event) {
 
       const newComment = document.createElement('li');
       newComment.className = 'posts-comment';
-      newComment.innerHTML = `
-              <div class="posts-user">${data.comment.author}</div>
-              <div class="posts-content">${data.comment.text}</div>
-              <div class="comment-actions">
-                <button class="posts-button" id="like-comment-${postId}-${data.comment.id}" onclick="likeComment(${postId}, ${data.comment.id})">
-                  ☠️ <span class="posts-button-text" id="like-comment-count-${postId}-${data.comment.id}">${data.comment.likes}</span>
-                </button>
-              </div>
-            `;
+
+      const userDiv = document.createElement('div');
+      userDiv.className = 'posts-user';
+      userDiv.textContent = data.comment.author;
+
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'posts-content';
+      contentDiv.textContent = data.comment.text;
+
+      const actionsDiv = document.createElement('div');
+      actionsDiv.className = 'comment-actions';
+      actionsDiv.innerHTML = `
+            <button class="posts-button" id="like-comment-${postId}-${data.comment.id}" onclick="likeComment(${postId}, ${data.comment.id})">
+              ☠️ <span class="posts-button-text" id="like-comment-count-${postId}-${data.comment.id}">${data.comment.likes}</span>
+            </button>
+      `;
+
+      newComment.appendChild(userDiv);
+      newComment.appendChild(contentDiv);
+      newComment.appendChild(actionsDiv);
 
       commentsList.prepend(newComment);
 

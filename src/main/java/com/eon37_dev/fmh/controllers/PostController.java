@@ -41,7 +41,7 @@ public class PostController {
   @PostMapping(path = {"", "/"})
   public ModelAndView newPost(RedirectAttributes redirectAttributes, HttpServletRequest request,
                               @RequestParam(name = "text") String text) {
-    Post newPost = postService.newPost(ClientIdFilter.getClientIdFromCookie(request), HtmlUtils.htmlEscape(text));
+    Post newPost = postService.newPost(ClientIdFilter.getClientIdFromCookie(request), text);
     List<PostDto> postDtos = DtoMapper.mapPostList(postService.getPosts());
 
     notificationService.send(true, newPost, newPost.getId());
@@ -67,8 +67,7 @@ public class PostController {
   public ResponseEntity<CommentDto> commentPostAsync(HttpServletRequest request,
                                                      @PathVariable(name = "id") Long id,
                                                      @RequestBody NewCommentDto commentDto) {
-    String escaped = HtmlUtils.htmlEscape(commentDto.getComment());
-    Map<Long, Post> comment = postService.newComment(ClientIdFilter.getClientIdFromCookie(request), id, escaped);
+    Map<Long, Post> comment = postService.newComment(ClientIdFilter.getClientIdFromCookie(request), id, commentDto.getComment());
 
     notificationService.send(false, comment.values().iterator().next(), id);
     return ResponseEntity.ok(DtoMapper.mapComments(comment).iterator().next());

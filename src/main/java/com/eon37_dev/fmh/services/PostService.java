@@ -49,7 +49,6 @@ public class PostService {
         }
       }
 
-
       private static void returnAuthor(String author) {
         synchronized (USER_LIST_LOCK) {
           if (author.contains("#")) {
