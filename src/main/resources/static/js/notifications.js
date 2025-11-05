@@ -8,6 +8,12 @@ if ('serviceWorker' in navigator) {
     .catch(function (error) {
       console.error('ServiceWorker registration failed:', error);
     });
+
+    navigator.serviceWorker.addEventListener('message', event => {
+        if (event.data && event.data.action === 'reload') {
+          window.location.reload();
+        }
+      });
 } else {
   console.warn('Service workers are not supported in this browser.');
 }

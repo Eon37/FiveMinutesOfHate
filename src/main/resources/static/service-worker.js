@@ -25,19 +25,24 @@ self.addEventListener('push', function (event) {
 self.addEventListener('notificationclick', function (event) {
   event.notification.close(); // Close the notification
 
-  // Focus/open the URL
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
-      // Check if a tab is already open with the URL
-      for (const client of clientList) {
-        if (client.url === 'https://five-minutes-of-hate.fly.dev/' && 'focus' in client) {
-          return client.focus();
+      (async () => {
+        const allClients = await clients.matchAll({
+          includeUncontrolled: true,
+          type: 'window'
+        });
+
+        for (const client of allClients) {
+          if (client.url === 'https://five-minutes-of-hate.fly.dev/' && 'focus' in client) {
+            client.focus();
+            // Send a message to the client to trigger reload
+            client.postMessage({ action: 'reload' });
+            return;
+          }
         }
-      }
-      // Otherwise, open a new tab
-      if (clients.openWindow) {
-        return clients.openWindow('https://five-minutes-of-hate.fly.dev/');
-      }
-    })
-  );
+
+        // If no existing tab found — open a new one
+        await clients.openWindow('https://five-minutes-of-hate.fly.dev/');
+      })()
+    );
 });
