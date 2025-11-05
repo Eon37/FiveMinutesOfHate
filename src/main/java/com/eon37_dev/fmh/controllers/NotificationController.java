@@ -1,6 +1,6 @@
 package com.eon37_dev.fmh.controllers;
 
-import com.eon37_dev.fmh.config.ClientIdFilter;
+import com.eon37_dev.fmh.config.filters.ClientIdFilter;
 import com.eon37_dev.fmh.dto.DtoMapper;
 import com.eon37_dev.fmh.dto.PushSubscriptionDto;
 import com.eon37_dev.fmh.services.PushService;

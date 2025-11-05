@@ -1,13 +1,11 @@
-package com.eon37_dev.fmh.config;
+package com.eon37_dev.fmh.config.filters;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Component
 public class IpSessionControlFilter implements Filter {
   private static final int MAX_SESSIONS_PER_IP = 5;
   private static final ConcurrentHashMap<String, AtomicInteger> sessionsPerIp = new ConcurrentHashMap<>();
@@ -20,7 +18,7 @@ public class IpSessionControlFilter implements Filter {
     HttpServletRequest req = (HttpServletRequest) request;
     HttpServletResponse resp = (HttpServletResponse) response;
 
-    String ip = getClientIP(req);
+    String ip = req.getRemoteAddr();
 
     AtomicInteger count = sessionsPerIp.get(ip);
     if (count != null && count.get() >= MAX_SESSIONS_PER_IP) {
@@ -31,12 +29,8 @@ public class IpSessionControlFilter implements Filter {
     chain.doFilter(request, response);
   }
 
-  private String getClientIP(HttpServletRequest request) {
-    String xfHeader = request.getHeader("X-Forwarded-For");
-    if (xfHeader == null) {
-      return request.getRemoteAddr();
-    }
-    return xfHeader.split(",")[0]; // First IP in X-Forwarded-For
+  public static boolean hasSession(String sessionId) {
+    return sessionIp.containsKey(sessionId);
   }
 
   public static void incrementSessionCount(String sessionId, String ip) {
@@ -57,7 +51,7 @@ public class IpSessionControlFilter implements Filter {
   }
 
   public static int getAllSessionCount() {
-    return sessionsPerIp.size();
+    return sessionIp.size();
   }
 }
 

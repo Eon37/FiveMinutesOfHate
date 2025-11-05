@@ -1,6 +1,6 @@
 package com.eon37_dev.fmh.model;
 
-import com.eon37_dev.fmh.config.IpSessionControlFilter;
+import com.eon37_dev.fmh.config.filters.IpSessionControlFilter;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;

@@ -1,13 +1,11 @@
-package com.eon37_dev.fmh.config;
+package com.eon37_dev.fmh.config.filters;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
-import org.springframework.stereotype.Component;
 import org.springframework.boot.web.server.Cookie.SameSite;
 
 import java.io.IOException;
 
-@Component
 public class ClientIdFilter implements Filter {
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)

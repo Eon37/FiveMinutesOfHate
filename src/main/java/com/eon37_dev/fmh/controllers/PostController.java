@@ -1,6 +1,6 @@
 package com.eon37_dev.fmh.controllers;
 
-import com.eon37_dev.fmh.config.ClientIdFilter;
+import com.eon37_dev.fmh.config.filters.ClientIdFilter;
 import com.eon37_dev.fmh.dto.*;
 import com.eon37_dev.fmh.model.ModelAndViewUtils;
 import com.eon37_dev.fmh.model.Post;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 import java.util.Map;
