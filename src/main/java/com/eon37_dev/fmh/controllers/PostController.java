@@ -1,11 +1,11 @@
 package com.eon37_dev.fmh.controllers;
 
-import com.eon37_dev.fmh.config.filters.ClientIdFilter;
 import com.eon37_dev.fmh.dto.*;
 import com.eon37_dev.fmh.model.ModelAndViewUtils;
 import com.eon37_dev.fmh.model.Post;
 import com.eon37_dev.fmh.services.NotificationService;
 import com.eon37_dev.fmh.services.PostService;
+import com.eon37_dev.fmh.utils.CookieUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +40,7 @@ public class PostController {
   @PostMapping(path = {"", "/"})
   public ModelAndView newPost(RedirectAttributes redirectAttributes, HttpServletRequest request,
                               @RequestParam(name = "text") String text) {
-    Post newPost = postService.newPost(ClientIdFilter.getClientIdFromCookie(request), text);
+    Post newPost = postService.newPost(CookieUtils.getClientIdFromCookie(request), text);
     List<PostDto> postDtos = DtoMapper.mapPostList(postService.getPosts());
 
     notificationService.send(true, newPost, newPost.getId());
@@ -50,7 +50,7 @@ public class PostController {
   @ResponseBody
   @PostMapping(path = "/{id}/like-async")
   public ResponseEntity<Integer> likePostAsync(HttpServletRequest request, @PathVariable(name = "id") Long id) {
-    return ResponseEntity.ok(postService.likePost(ClientIdFilter.getClientIdFromCookie(request), id));
+    return ResponseEntity.ok(postService.likePost(CookieUtils.getClientIdFromCookie(request), id));
   }
 
   @ResponseBody
@@ -58,7 +58,7 @@ public class PostController {
   public ResponseEntity<Integer> likeCommentAsync(HttpServletRequest request,
                                                   @PathVariable(name = "id") Long id,
                                                   @PathVariable(name = "commentId") String commentId) {
-    return ResponseEntity.ok(postService.likeComment(ClientIdFilter.getClientIdFromCookie(request), id, Long.parseLong(commentId)));
+    return ResponseEntity.ok(postService.likeComment(CookieUtils.getClientIdFromCookie(request), id, Long.parseLong(commentId)));
   }
 
   @ResponseBody
@@ -66,7 +66,7 @@ public class PostController {
   public ResponseEntity<CommentDto> commentPostAsync(HttpServletRequest request,
                                                      @PathVariable(name = "id") Long id,
                                                      @RequestBody NewCommentDto commentDto) {
-    Map<Long, Post> comment = postService.newComment(ClientIdFilter.getClientIdFromCookie(request), id, commentDto.getComment());
+    Map<Long, Post> comment = postService.newComment(CookieUtils.getClientIdFromCookie(request), id, commentDto.getComment());
 
     notificationService.send(false, comment.values().iterator().next(), id);
     return ResponseEntity.ok(DtoMapper.mapComments(comment).iterator().next());

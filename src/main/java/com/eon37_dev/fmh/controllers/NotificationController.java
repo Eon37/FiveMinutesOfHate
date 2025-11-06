@@ -1,9 +1,9 @@
 package com.eon37_dev.fmh.controllers;
 
-import com.eon37_dev.fmh.config.filters.ClientIdFilter;
 import com.eon37_dev.fmh.dto.DtoMapper;
 import com.eon37_dev.fmh.dto.PushSubscriptionDto;
 import com.eon37_dev.fmh.services.PushService;
+import com.eon37_dev.fmh.utils.CookieUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +23,7 @@ public class NotificationController {
   @PostMapping("/subscribe")
   public ResponseEntity<Void> subscribe(HttpServletRequest request,
                                         @RequestBody PushSubscriptionDto subscription) {
-    pushService.addSubscription(ClientIdFilter.getClientIdFromCookie(request), DtoMapper.mapPushSubscriptionFromDto(subscription));
+    pushService.addSubscription(CookieUtils.getClientIdFromCookie(request), DtoMapper.mapPushSubscriptionFromDto(subscription));
     return ResponseEntity.ok().build();
   }
 }

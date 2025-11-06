@@ -1,10 +1,12 @@
 package com.eon37_dev.fmh.config.filters;
 
+import com.eon37_dev.fmh.utils.CookieUtils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import org.springframework.boot.web.server.Cookie.SameSite;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class ClientIdFilter implements Filter {
   @Override
@@ -12,10 +14,10 @@ public class ClientIdFilter implements Filter {
           throws IOException, ServletException {
 
     if (req instanceof HttpServletRequest request && res instanceof HttpServletResponse response) {
-      boolean hasCookie = getClientIdFromCookie(request) != null;
+      boolean hasCookie = CookieUtils.getClientIdFromCookie(request) != null;
 
       if (!hasCookie) {
-        Cookie cookie = new Cookie("clientId", getClientIdFromSession(request.getSession()));
+        Cookie cookie = new Cookie("clientId", UUID.randomUUID().toString());
         cookie.setPath("/");
         cookie.setSecure(true);
         cookie.setHttpOnly(false);
@@ -26,21 +28,5 @@ public class ClientIdFilter implements Filter {
     }
 
     chain.doFilter(req, res);
-  }
-
-  public static String getClientIdFromCookie(HttpServletRequest request) {
-    if (request.getCookies() != null) {
-      for (Cookie cookie : request.getCookies()) {
-        if ("clientId".equals(cookie.getName())) {
-          return cookie.getValue();
-        }
-      }
-    }
-
-    return null;
-  }
-
-  private static String getClientIdFromSession(HttpSession session) {
-    return String.valueOf(session.getId().hashCode());
   }
 }

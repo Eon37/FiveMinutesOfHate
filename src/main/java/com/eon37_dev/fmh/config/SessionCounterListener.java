@@ -1,5 +1,5 @@
 package com.eon37_dev.fmh.config;
-import com.eon37_dev.fmh.config.filters.IpSessionControlFilter;
+import com.eon37_dev.fmh.config.filters.SessionTrackingFilter;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class SessionCounterListener implements HttpSessionListener {
   @Override
   public void sessionDestroyed(HttpSessionEvent se) {
-    IpSessionControlFilter.decrementSessionCount(se.getSession().getId());
+    SessionTrackingFilter.decrementSessionCount(se.getSession().getId());
   }
 }
 

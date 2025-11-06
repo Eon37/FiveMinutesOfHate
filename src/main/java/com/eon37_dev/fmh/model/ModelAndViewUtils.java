@@ -1,6 +1,6 @@
 package com.eon37_dev.fmh.model;
 
-import com.eon37_dev.fmh.config.filters.IpSessionControlFilter;
+import com.eon37_dev.fmh.config.filters.SessionTrackingFilter;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +18,7 @@ public class ModelAndViewUtils {
     ModelAndView mav = new ModelAndView(viewName, model);
 
     mav.addObject("theme", retrieveTheme(request));
-    mav.addObject("activeSessions", IpSessionControlFilter.getAllSessionCount());
+    mav.addObject("activeSessions", SessionTrackingFilter.getAllSessionCount());
     mav.addObject("appServKey", appServKey);
 
     return mav;
@@ -32,7 +32,7 @@ public class ModelAndViewUtils {
     model.forEach(redirectAttributes::addFlashAttribute);
 
     redirectAttributes.addFlashAttribute("theme", retrieveTheme(request));
-    redirectAttributes.addFlashAttribute("activeSessions", IpSessionControlFilter.getAllSessionCount());
+    redirectAttributes.addFlashAttribute("activeSessions", SessionTrackingFilter.getAllSessionCount());
     redirectAttributes.addFlashAttribute("appServKey", appServKey);
 
     return new ModelAndView("redirect:" + redirectName);
@@ -46,7 +46,7 @@ public class ModelAndViewUtils {
     model.forEach(redirectAttributes::addFlashAttribute);
 
     redirectAttributes.addFlashAttribute("theme", theme);
-    redirectAttributes.addFlashAttribute("activeSessions", IpSessionControlFilter.getAllSessionCount());
+    redirectAttributes.addFlashAttribute("activeSessions", SessionTrackingFilter.getAllSessionCount());
     redirectAttributes.addFlashAttribute("appServKey", appServKey);
 
 
