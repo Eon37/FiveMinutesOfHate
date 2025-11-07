@@ -3,6 +3,8 @@ package com.eon37_dev.fmh.config;
 import com.eon37_dev.fmh.config.filters.ClientIdFilter;
 import com.eon37_dev.fmh.config.filters.IpSessionControlFilter;
 import com.eon37_dev.fmh.config.filters.SessionTrackingFilter;
+import com.eon37_dev.fmh.config.filters.ValidateCaptchaFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +12,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FilterConfig {
   @Bean
+  public FilterRegistrationBean<ValidateCaptchaFilter> validateCaptchaFilter(@Value("${turnstile.key.secret}") String secretKey) {
+    FilterRegistrationBean<ValidateCaptchaFilter> reg = new FilterRegistrationBean<>();
+    reg.setFilter(new ValidateCaptchaFilter(secretKey));
+    reg.addUrlPatterns("/", "/theme", "/api/*");
+    reg.setOrder(1);
+    return reg;
+  }
+  @Bean
   public FilterRegistrationBean<ClientIdFilter> clientIdFilter() {
     FilterRegistrationBean<ClientIdFilter> reg = new FilterRegistrationBean<>();
     reg.setFilter(new ClientIdFilter());
     reg.addUrlPatterns("/", "/theme", "/api/*");
-    reg.setOrder(1);
+    reg.setOrder(2);
     return reg;
   }
   @Bean
@@ -22,7 +32,7 @@ public class FilterConfig {
     FilterRegistrationBean<SessionTrackingFilter> reg = new FilterRegistrationBean<>();
     reg.setFilter(new SessionTrackingFilter());
     reg.addUrlPatterns("/", "/theme", "/api/*");
-    reg.setOrder(2);
+    reg.setOrder(3);
     return reg;
   }
   @Bean
@@ -30,7 +40,7 @@ public class FilterConfig {
     FilterRegistrationBean<IpSessionControlFilter> reg = new FilterRegistrationBean<>();
     reg.setFilter(new IpSessionControlFilter());
     reg.addUrlPatterns("/", "/theme", "/api/*");
-    reg.setOrder(3);
+    reg.setOrder(4);
     return reg;
   }
 }
