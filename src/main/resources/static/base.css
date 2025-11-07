@@ -199,6 +199,7 @@ textarea:focus-visible {
   padding: 0.5rem 1rem;
   border-radius: 6px;
   border: none;
+  align-content: center;
 }
 
 .close-button {

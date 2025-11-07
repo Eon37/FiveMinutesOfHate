@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: fmh
+  messagesbasename: messages
+  mvc:
+    locale-resolver: accept-header
+
+logging:
+  level.com.eon37_dev.fmh: INFO
+
+server:
+  servlet.session.timeout: 10m
+
+turnstile:
+  key:
+    site: ${TURNSTILE_SITE_KEY}
+    secret: ${TURNSTILE_SECRET_KEY}
+
+vapid:
+  key:
+    public: ${VAPID_PUBLIC_KEY}
+    private: ${VAPID_PRIVATE_KEY}
+  subject: ${VAPID_SUBJECT}

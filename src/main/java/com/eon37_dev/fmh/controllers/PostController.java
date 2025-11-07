@@ -7,7 +7,6 @@ import com.eon37_dev.fmh.services.NotificationService;
 import com.eon37_dev.fmh.services.PostService;
 import com.eon37_dev.fmh.utils.CookieUtils;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +19,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/api/posts")
 public class PostController {
-  @Value("${vapid.public.key}")
-  private String appServKey;
   private final PostService postService;
   private final NotificationService notificationService;
 
@@ -34,17 +31,18 @@ public class PostController {
   public ModelAndView getAll(HttpServletRequest request) {
     List<PostDto> postDtos = DtoMapper.mapPostList(postService.getPosts());
 
-    return ModelAndViewUtils.buildView("index", Map.of("posts", postDtos), request, appServKey);
+    return ModelAndViewUtils.buildView("index", Map.of("posts", postDtos), request);
   }
 
   @PostMapping(path = {"", "/"})
   public ModelAndView newPost(RedirectAttributes redirectAttributes, HttpServletRequest request,
-                              @RequestParam(name = "text") String text) {
+                              @RequestParam String text) {
+
     Post newPost = postService.newPost(CookieUtils.getClientIdFromCookie(request), text);
     List<PostDto> postDtos = DtoMapper.mapPostList(postService.getPosts());
 
     notificationService.send(true, newPost, newPost.getId());
-    return ModelAndViewUtils.buildRedirect("/", Map.of("posts", postDtos), redirectAttributes, request, appServKey);
+    return ModelAndViewUtils.buildRedirect("/", Map.of("posts", postDtos), redirectAttributes, request);
   }
 
   @ResponseBody

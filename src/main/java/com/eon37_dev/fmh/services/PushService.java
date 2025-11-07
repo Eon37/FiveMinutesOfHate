@@ -21,9 +21,9 @@ public class PushService {
     }
   }
 
-  @Value("${vapid.public.key}")
+  @Value("${vapid.key.public}")
   private String vapidPublicKey;
-  @Value("${vapid.private.key}")
+  @Value("${vapid.key.private}")
   private String vapidPrivateKey;
   @Value("${vapid.subject}")
   private String vapidSubject;

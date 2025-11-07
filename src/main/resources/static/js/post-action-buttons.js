@@ -22,13 +22,14 @@ function likeComment(postId, commentId) {
     .catch(err => console.error(err));
 }
 
-function commentPost(postId, form, event) {
+function commentPost(postId, form, event, token) {
   event.preventDefault();
 
   const commentText = form["post-comment-input"].value;
   if (!commentText.trim()) return;
+        console.log("Inside function before fetch");
 
-  fetch(`/api/posts/${postId}/comments`, {
+  fetch(`/api/posts/${postId}/comments?cf-turnstile-response=${token}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ comment: commentText })
