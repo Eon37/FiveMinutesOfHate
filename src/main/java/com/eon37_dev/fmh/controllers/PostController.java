@@ -1,5 +1,6 @@
 package com.eon37_dev.fmh.controllers;
 
+import com.eon37_dev.fmh.config.exceptions.LocalException;
 import com.eon37_dev.fmh.dto.*;
 import com.eon37_dev.fmh.model.ModelAndViewUtils;
 import com.eon37_dev.fmh.model.Post;
@@ -7,6 +8,7 @@ import com.eon37_dev.fmh.services.NotificationService;
 import com.eon37_dev.fmh.services.PostService;
 import com.eon37_dev.fmh.utils.CookieUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/api/posts")
 public class PostController {
+  private static final String CLIENT_ID_MESSAGE_CODE = "errors.no-client-id";
   private final PostService postService;
   private final NotificationService notificationService;
 
@@ -37,8 +40,10 @@ public class PostController {
   @PostMapping(path = {"", "/"})
   public ModelAndView newPost(RedirectAttributes redirectAttributes, HttpServletRequest request,
                               @RequestParam String text) {
+    String clientId = CookieUtils.getClientIdFromCookie(request);
+    if (clientId == null) throw new LocalException(HttpStatus.BAD_REQUEST, "ClientId missing", CLIENT_ID_MESSAGE_CODE);
 
-    Post newPost = postService.newPost(CookieUtils.getClientIdFromCookie(request), text);
+    Post newPost = postService.newPost(clientId, text);
     List<PostDto> postDtos = DtoMapper.mapPostList(postService.getPosts());
 
     notificationService.send(true, newPost, newPost.getId());
@@ -48,7 +53,10 @@ public class PostController {
   @ResponseBody
   @PostMapping(path = "/{id}/like-async")
   public ResponseEntity<Integer> likePostAsync(HttpServletRequest request, @PathVariable(name = "id") Long id) {
-    return ResponseEntity.ok(postService.likePost(CookieUtils.getClientIdFromCookie(request), id));
+    String clientId = CookieUtils.getClientIdFromCookie(request);
+    if (clientId == null) throw new LocalException(HttpStatus.BAD_REQUEST, "ClientId missing", CLIENT_ID_MESSAGE_CODE);
+
+    return ResponseEntity.ok(postService.likePost(clientId, id));
   }
 
   @ResponseBody
@@ -56,7 +64,10 @@ public class PostController {
   public ResponseEntity<Integer> likeCommentAsync(HttpServletRequest request,
                                                   @PathVariable(name = "id") Long id,
                                                   @PathVariable(name = "commentId") String commentId) {
-    return ResponseEntity.ok(postService.likeComment(CookieUtils.getClientIdFromCookie(request), id, Long.parseLong(commentId)));
+    String clientId = CookieUtils.getClientIdFromCookie(request);
+    if (clientId == null) throw new LocalException(HttpStatus.BAD_REQUEST, "ClientId missing", CLIENT_ID_MESSAGE_CODE);
+
+    return ResponseEntity.ok(postService.likeComment(clientId, id, Long.parseLong(commentId)));
   }
 
   @ResponseBody
@@ -64,7 +75,10 @@ public class PostController {
   public ResponseEntity<CommentDto> commentPostAsync(HttpServletRequest request,
                                                      @PathVariable(name = "id") Long id,
                                                      @RequestBody NewCommentDto commentDto) {
-    Map<Long, Post> comment = postService.newComment(CookieUtils.getClientIdFromCookie(request), id, commentDto.getComment());
+    String clientId = CookieUtils.getClientIdFromCookie(request);
+    if (clientId == null) throw new LocalException(HttpStatus.BAD_REQUEST, "ClientId missing", CLIENT_ID_MESSAGE_CODE);
+
+    Map<Long, Post> comment = postService.newComment(clientId, id, commentDto.getComment());
 
     notificationService.send(false, comment.values().iterator().next(), id);
     return ResponseEntity.ok(DtoMapper.mapComments(comment).iterator().next());

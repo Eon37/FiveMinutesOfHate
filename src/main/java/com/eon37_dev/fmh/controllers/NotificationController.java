@@ -23,7 +23,10 @@ public class NotificationController {
   @PostMapping("/subscribe")
   public ResponseEntity<Void> subscribe(HttpServletRequest request,
                                         @RequestBody PushSubscriptionDto subscription) {
-    pushService.addSubscription(CookieUtils.getClientIdFromCookie(request), DtoMapper.mapPushSubscriptionFromDto(subscription));
+    String clientId = CookieUtils.getClientIdFromCookie(request);
+    if (clientId == null) return ResponseEntity.badRequest().build();
+
+    pushService.addSubscription(clientId, DtoMapper.mapPushSubscriptionFromDto(subscription));
     return ResponseEntity.ok().build();
   }
 }

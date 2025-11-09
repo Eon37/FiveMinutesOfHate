@@ -18,22 +18,22 @@ public class SessionTrackingFilter implements Filter {
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
           throws IOException, ServletException {
     HttpServletRequest request = (HttpServletRequest) req;
-    HttpSession session = request.getSession();
 
-    String clientId = CookieUtils.getClientIdFromCookie(request); //exist, cause if didn't then was created in prev filter
+    String clientId = CookieUtils.getClientIdFromCookie(request);
+    if (clientId != null) {
+      synchronized ("SESSION_TRACKING_FILTER_INCREMENT_SESSION") {
+        HttpSession session = request.getSession();
+        HttpSession oldSession = clientSession.get(clientId);
+        if (oldSession != null && !session.getId().equals(oldSession.getId())) {
+          oldSession.invalidate();
+        }
 
-    synchronized ("SESSION_TRACKING_FILTER_INCREMENT_SESSION") {
-      HttpSession oldSession = clientSession.get(clientId);
-      if (oldSession != null && !session.getId().equals(oldSession.getId())) {
-        oldSession.invalidate();
-      }
-
-      if (!sessionIp.containsKey(session.getId())) {
-        String ip = request.getRemoteAddr();
-        incrementSessionCount(session, clientId, ip);
+        if (!sessionIp.containsKey(session.getId())) {
+          String ip = request.getRemoteAddr();
+          incrementSessionCount(session, clientId, ip);
+        }
       }
     }
-
     chain.doFilter(req, res);
   }
 
@@ -62,10 +62,6 @@ public class SessionTrackingFilter implements Filter {
 
   public static int getAllSessionCount() {
     return sessionIp.size();
-  }
-
-  public static int getSessionCountByIp(String ip) {
-    return sessionsPerIp.getOrDefault(ip, 0);
   }
 }
 

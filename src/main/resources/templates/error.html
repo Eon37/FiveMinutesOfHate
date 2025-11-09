@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" th:class="${theme}" xmlns:th="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>5 Minutes of Hate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT&display=swap" rel="stylesheet">
+    <link rel="icon" href="/icons/icon.png">
+    <link rel="stylesheet" href="/base.css">
+    <link rel="stylesheet" href="/dark_theme.css">
+    <link rel="stylesheet" href="/light_theme.css">
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <a th:href="@{/}" class="header-left" style="text-decoration:none; color:inherit;">
+          <img class="logo-img" src="https://img.icons8.com/?size=100&id=Oe4ZIsh7LRBH&format=png&color=000000"
+               alt="Angry Icon" title="Evil icon by Icons8: https://icons8.com/icon/Oe4ZIsh7LRBH/evil">
+          <span class="logo-text" th:text="#{page.main.title}"></span>
+        </a>
+
+        <div class="header-center">
+        </div>
+
+        <div class="header-right">
+          <p class="description" th:utext="#{page.main.description}"></p>
+
+          <div class="header-cookies">
+            <form method="get" action="" class="lang-switcher">
+              <select name="lang" onchange="this.form.submit()">
+                <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+                <option value="ru" th:selected="${#locale.language == 'ru'}">RU</option>
+              </select>
+            </form>
+
+            <form action="/theme" method="post" style="display:inline;">
+              <input type="hidden" name="theme" th:value="${theme == 'dark' ? 'light' : 'dark'}"/>
+              <button type="submit" title="Switch Theme" class="theme-toggle-button"
+                      th:text="${theme == null || theme == 'dark'} ? '✴' : '☾'"></button>
+            </form>
+          </div>
+        </div>
+      </header>
+
+
+<!--      <h1 style="align-content:center;" th:text="${statusCode}"></h1>-->
+<!--      <h1 style="align-content:center;" th:if="${userMessage != null}" th:text="${userMessage}"></h1>-->
+<!--      <h1 style="align-content:center;" th:if="${userMessage == null}" th:text="#{page.error.global.message}"></h1>-->
+      <div class="error-container">
+        <div class="error-box">
+          <h1 class="error-code" th:text="${statusCode}"></h1>
+          <p class="error-message" th:if="${userMessage != null}" th:text="${userMessage}"></p>
+          <p class="error-message" th:if="${userMessage == null}" th:text="#{page.error.global.message}"></p>
+          <a th:href="@{/}" class="error-home" th:text="#{page.error.btn.back}"></a>
+        </div>
+      </div>
+
+
+      <footer>
+        <p th:text="#{page.main.create.tooltip}"></p>
+        <p>&copy; 2025 5 Minutes of Hate — The place of relief 😈</p>
+      </footer>
+    </div>
+  </body>
+</html>
