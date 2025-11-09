@@ -1,4 +1,4 @@
-**
-
-!build/libs/fmh-1.0.0.jar
-!fly.toml
+gradle/
+gradlew
+gradlew.bat
+fly.toml
