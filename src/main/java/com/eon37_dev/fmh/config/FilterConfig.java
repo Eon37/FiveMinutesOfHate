@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FilterConfig {
   @Bean
-  public FilterRegistrationBean<ValidateCaptchaFilter> validateCaptchaFilter(@Value("turnstile.key.secret}") String secretKey) {
+  public FilterRegistrationBean<ValidateCaptchaFilter> validateCaptchaFilter(@Value("${turnstile.key.secret}") String secretKey) {
     FilterRegistrationBean<ValidateCaptchaFilter> reg = new FilterRegistrationBean<>();
     reg.setFilter(new ValidateCaptchaFilter(secretKey));
     reg.addUrlPatterns("/api/posts", "/api/posts/*");

@@ -31,7 +31,7 @@ public class ValidateCaptchaFilter implements Filter {
 
     String token = req.getParameter("cf-turnstile-response");
 
-    if (token == null && !verify(token)) {
+    if (token == null || !verify(token)) {
       res.sendError(HttpStatus.FORBIDDEN.value(), "Captcha validation failed");
       return;
     }
