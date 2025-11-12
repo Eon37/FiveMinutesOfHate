@@ -30,13 +30,6 @@ public class PostController {
     this.notificationService = notificationService;
   }
 
-  @GetMapping({"", "/"})
-  public ModelAndView getAll(HttpServletRequest request) {
-    List<PostDto> postDtos = DtoMapper.mapPostList(postService.getPosts());
-
-    return ModelAndViewUtils.buildView("index", Map.of("posts", postDtos), request);
-  }
-
   @PostMapping(path = {"", "/"})
   public ModelAndView newPost(RedirectAttributes redirectAttributes, HttpServletRequest request,
                               @RequestParam String text) {

@@ -12,10 +12,12 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 public class ValidateCaptchaFilter implements Filter {
   private static final Logger log = LoggerFactory.getLogger(ValidateCaptchaFilter.class);
   private static final String SITEVERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+  private static final Set<String> VALIDATABLE_URLS = Set.of("/api/posts", "/api/posts/.+/comments");
   private final RestTemplate restTemplate = new RestTemplate();
   private final String turnstileSecretKey;
 
@@ -31,7 +33,8 @@ public class ValidateCaptchaFilter implements Filter {
 
     String token = req.getParameter("cf-turnstile-response");
 
-    if (token == null || !verify(token)) {
+    boolean validatableUrl = VALIDATABLE_URLS.stream().anyMatch(url -> req.getRequestURI().matches(url));
+    if (validatableUrl && (token == null || !verify(token))) {
       res.sendError(HttpStatus.FORBIDDEN.value(), "Captcha validation failed");
       return;
     }

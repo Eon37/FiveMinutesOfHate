@@ -14,7 +14,7 @@ public class FilterConfig {
   public FilterRegistrationBean<ValidateCaptchaFilter> validateCaptchaFilter(@Value("${turnstile.key.secret}") String secretKey) {
     FilterRegistrationBean<ValidateCaptchaFilter> reg = new FilterRegistrationBean<>();
     reg.setFilter(new ValidateCaptchaFilter(secretKey));
-    reg.addUrlPatterns("/api/posts", "/api/posts/*");
+    reg.addUrlPatterns("/api/posts/*");
     reg.setOrder(1);
     return reg;
   }
