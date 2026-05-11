@@ -3,6 +3,7 @@ package com.eon37_dev.fmh.config;
 import com.eon37_dev.fmh.config.filters.ClientIdFilter;
 import com.eon37_dev.fmh.config.filters.SessionTrackingFilter;
 import com.eon37_dev.fmh.config.filters.ValidateCaptchaFilter;
+import com.eon37_dev.fmh.services.SessionService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -27,9 +28,9 @@ public class FilterConfig {
     return reg;
   }
   @Bean
-  public FilterRegistrationBean<SessionTrackingFilter> sessionTrackingFilter() {
+  public FilterRegistrationBean<SessionTrackingFilter> sessionTrackingFilter(SessionService sessionService) {
     FilterRegistrationBean<SessionTrackingFilter> reg = new FilterRegistrationBean<>();
-    reg.setFilter(new SessionTrackingFilter());
+    reg.setFilter(new SessionTrackingFilter(sessionService));
     reg.addUrlPatterns("/", "/theme", "/api/*");
     reg.setOrder(3);
     return reg;

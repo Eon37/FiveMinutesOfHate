@@ -1,6 +1,7 @@
 package com.eon37_dev.fmh.model;
 
 import com.eon37_dev.fmh.config.filters.SessionTrackingFilter;
+import com.eon37_dev.fmh.services.SessionService;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public class ModelAndViewUtils {
     ModelAndView mav = new ModelAndView(viewName, model);
 
     mav.addObject("theme", retrieveTheme(request));
-    mav.addObject("activeSessions", SessionTrackingFilter.getAllSessionCount());
+    mav.addObject("activeSessions", SessionService.getAllSessionCount());
     mav.addObject("appServKey", APP_SERV_KEY);
     mav.addObject("turnstileSiteKey", TURNSTILE_SITE_KEY);
 
@@ -47,7 +48,7 @@ public class ModelAndViewUtils {
     model.forEach(redirectAttributes::addFlashAttribute);
 
     redirectAttributes.addFlashAttribute("theme", retrieveTheme(request));
-    redirectAttributes.addFlashAttribute("activeSessions", SessionTrackingFilter.getAllSessionCount());
+    redirectAttributes.addFlashAttribute("activeSessions", SessionService.getAllSessionCount());
     redirectAttributes.addFlashAttribute("appServKey", APP_SERV_KEY);
     redirectAttributes.addFlashAttribute("turnstileSiteKey", TURNSTILE_SITE_KEY);
 
@@ -61,7 +62,7 @@ public class ModelAndViewUtils {
     model.forEach(redirectAttributes::addFlashAttribute);
 
     redirectAttributes.addFlashAttribute("theme", theme);
-    redirectAttributes.addFlashAttribute("activeSessions", SessionTrackingFilter.getAllSessionCount());
+    redirectAttributes.addFlashAttribute("activeSessions", SessionService.getAllSessionCount());
     redirectAttributes.addFlashAttribute("appServKey", APP_SERV_KEY);
     redirectAttributes.addFlashAttribute("turnstileSiteKey", TURNSTILE_SITE_KEY);
 
